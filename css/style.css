@@ -1,0 +1,72 @@
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+canvas {
+
+    padding-left: 0;
+    padding-right: 0;
+    
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    width: 800px;
+    background: #fff;
+
+}
+
+.container {
+    padding-left: 0;
+    padding-right: 0;
+    margin-top: 100px;
+    margin-left: auto;
+    margin-right: auto;
+
+}
+
+#logo {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+body {
+#    background: #fff;
+}
+
+h1 {
+    display: none;
+}
+
+p {
+    font-family: 'Open Sans Condensed';
+    text-align: center;
+    padding-top: 5px;
+    margin: 0;
+    color: #fff;
+}
+
+p#legend {
+    font-size: 20px;
+    color: #fff;
+}
+
+p#baseline, p#baseline a:link, p#baseline a:visited, p#baseline a:hover, p#baseline a:active {
+    font-size: 16px;
+    color: #fff;
+    padding: 0;
+}
+
+div#container {
+    min-height: 100%;
+    padding-top: 50px;
+    margin: 0px;
+    background-color: #fff;
+    transition: background-color 1s linear; 
+    -moz-transition: background-color 1s linear;  
+    -webkit-transition: background-color 1s linear; 
+    -ms-transition: background-color 1s linear; 
+}
