@@ -9,6 +9,8 @@
         <link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>   
         <link rel="stylesheet" type="text/css" href="css/style.css" media="screen" />
 
+        <link rel="shortcut icon" type="image/x-icon" href="http://i39.servimg.com/u/f39/19/01/20/04/amiga-10.png" />
+        
     </head>
     <body>
 
@@ -16,17 +18,16 @@
         <div id ="container" class="container">
             
             <img id="logo" src="medias/KUZZLE_LOGO.png" />
-            <p id="legend">Just cleanup the users collection !</p>
+            <p id="legend">Waiting after Kuzzle...</p>
                         
         </div>
 
-    	<script src="https://cdn.socket.io/socket.io-1.3.4.js"></script>
-    	<script type="text/javascript" src="js/kuzzle.min.js"></script>
+        <script src="https://cdn.socket.io/socket.io-1.3.4.js"></script>
+        <script type="text/javascript" src="js/kuzzle.min.js"></script>
        
         <script>
         document.getElementById("container").style.background = "#444444";
     
-
         var kuzzle = new Kuzzle("http://api.uat.kuzzle.io:7512");
 
         kuzzle.deleteByQuery("polygon", {}, function(response) {
@@ -34,6 +35,8 @@
                 console.error(response.error);
             }
             
+            document.getElementById("legend").innerHTML = "Just cleanup the users collection !";
+
             console.log("deleteByQuery:",response.result.ids);
         });
         </script>
