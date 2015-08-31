@@ -1,4 +1,4 @@
-var kuzzle = new Kuzzle("http://api.uat.kuzzle.io:7512");
+var kuzzle = Kuzzle.init("http://api.uat.kuzzle.io:7512");
 
 var roomId;
 var numberOfsubs = 0;
@@ -18,33 +18,32 @@ module.setrepeat(true);
 // --------------------------- --------------------------
 // --------------------------- --------------------------
 
-roomId = kuzzle.subscribe("polygon", {term: {hello:1}}, function(response) {
-    if(response.error) { console.error(response.error); }
+roomId = kuzzle.subscribe("polygon", {term: {hello:1}}, function(error, response) {
+    if(error) { console.error(error); }
 
     if ( (response.action === "create") || (response.action === "update") )
     {
     	console.log("subscribe :",response);
-    	tempTheme = response.body.theme;
+    	tempTheme = response._source.theme;
     }
-
     
 });
 
-kuzzle.get("polygon", myid, function(response) {
+kuzzle.get("polygon", myid, function(error, response) {
     
 	// if error, means counter was never created, so create it
 	//var generateTheme = 'theme'+Math.floor((Math.random() * 5) + 1);
 
-    if(response.error) {
-        console.error(response.error);
+    if(error) {
+        console.error(error);
 
-        kuzzle.create("polygon", {_id:myid, cpt: 0, hello: 1, theme: currentTheme}, true, function(response) {
-		    if(response.error) {
-		        console.error(response.error);
+        kuzzle.create("polygon", {_id:myid, cpt: 0, hello: 1, theme: currentTheme}, true, function(error, response) {
+		    if(error) {
+		        console.error(error);
 
-		        kuzzle.update("polygon", {_id:myid, cpt: 1, hello: 1, theme: currentTheme}, function(response) {
-		        	if(response.error) {
-		        		console.error(response.error);
+		        kuzzle.update("polygon", {_id:myid, cpt: 1, hello: 1, theme: currentTheme}, function(error, response) {
+		        	if(error) {
+		        		console.error(error);
 		        	}
 
 		        	setInterval(updateCount, 500);
@@ -52,7 +51,7 @@ kuzzle.get("polygon", myid, function(response) {
 		        });
 		    }
 
-		    if(!response.error) {
+		    if(!error) {
 		    	console.log("create",response);
 
 		    	setInterval(updateCount, 500);
@@ -62,18 +61,18 @@ kuzzle.get("polygon", myid, function(response) {
     }
     
     // if no error, means counter exist, so use it & increment
-    if(!response.error) {
+    if(!error) {
 
-		numberOfsubs = response.result._source.cpt;
+		numberOfsubs = response._source.cpt;
 
 		console.log(numberOfsubs);
 
-    	kuzzle.update("polygon", {_id:myid, cpt: numberOfsubs+1, hello: 1, theme: currentTheme}, function(response) {
-		    if(response.error) {
-		        console.error(response.error);
+    	kuzzle.update("polygon", {_id:myid, cpt: numberOfsubs+1, hello: 1, theme: currentTheme}, function(error, response) {
+		    if(error) {
+		        console.error(error);
 		    }
 
-		    console.log("update",response.result);
+		    console.log("update",response);
 
 		    setInterval(updateCount, 500);
 		});
@@ -93,21 +92,21 @@ function updateCount() {
     	toSwitch = true;
     }
 
-	kuzzle.count("polygon", {}, function(response) {
-		if(response.error) {
-		    console.error(response.error);
+	kuzzle.count("polygon", {}, function(error, response) {
+		if(error) {
+		    console.error(error);
 		}
 
-		if (response.result.count <= 1) { 
+		if (response.count <= 1) { 
 			numberOfUsers = 1;
             if (!iSsceneInit) { sceneInit(); }
 
             toSwitch = false;
 		} else {
 
-			if (numberOfUsers != response.result.count) {
+			if (numberOfUsers != response.count) {
 				
-				numberOfUsers = response.result.count;
+				numberOfUsers = response.count;
 				console.log("count after change : "+numberOfUsers);
     			
     			toSwitch = true;
@@ -122,7 +121,7 @@ function updateCount() {
             console.log("switch to :"+numberOfUsers);
         }
 
-        //console.log(response.result.count);
+        //console.log(response.count);
 
 	});
 
@@ -131,12 +130,12 @@ function updateCount() {
 
 window.onunload = function () {
 
-	kuzzle.delete("polygon", myid, function(response) {
-		if(response.error) {
-		    console.error(response.error);
+	kuzzle.delete("polygon", myid, function(error, response) {
+		if(error) {
+		    console.error(error);
 		}
 		    
-			//console.log(response.result);
+			//console.log(response);
 		});
 
 };
